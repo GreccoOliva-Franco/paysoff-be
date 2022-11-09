@@ -3,7 +3,9 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import apiRoutes from './app.routes';
+
 import { noEndpointMiddleware } from '../common/middlewares/no-endpoint.middleware';
+
 const app = express();
 
 app.use(express.json());
