@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"lib": ["es2015", "dom"],
+		"outDir": "dist",
+		"removeComments": true,
+		"target": "ES2020",
+
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+
+		"alwaysStrict": true,
+		"allowUnreachableCode": false,
+		"noImplicitAny": false,
+		"strictNullChecks": true,
+
+		"noImplicitReturns": false,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		"experimentalDecorators": true,
+	},
+	"include": ["./src/**/*.ts"],
+	"exclude": ["node_modules/**/*"]
+}
