@@ -1,3 +1,4 @@
+import authErrors from './auth/auth.error';
 import userErrors from './user/user.error';
 
 const errors = {
