@@ -5,27 +5,17 @@ import { BaseController } from '../../common/controllers/base.controller'
 
 import authService, { AuthService } from './auth.service';
 
-import { ErrorLogger } from '../../common/loggers/error.logger';
-
-
 export class AuthController extends BaseController {
 	constructor(service: AuthService) {
 		super(service);
 	};
 
 	public async register(req: Request, res: Response) {
-		try {
-			const { email, password } = req.body;
+		const { email, password } = req.body;
 
-			await this.service.registerNewUser({ email, password });
+		await this.service.registerNewUser({ email, password });
 
-			return res.status(httpCodes.CREATED).json(this.buildSuccessResponse)
-		} catch (error) {
-			// if (error instanceof CreateUserError) return res.status(httpCodes.BAD_REQUEST).json(this.buildErrorResponse(error));
-			ErrorLogger.logUncaughtError({ function: 'AuthController > register', error });
-
-			return res.status(httpCodes.INTERNAL_SERVER_ERROR)
-		}
+		return res.status(httpCodes.CREATED)
 	}
 }
 
