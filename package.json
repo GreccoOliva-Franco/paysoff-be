@@ -5,7 +5,7 @@
 	"main": "./dist/server.js",
 	"scripts": {
 		"prestart": "npm run build",
-		"start": "node ./dist/server.js",
+		"start": "node .",
 		"prebuild": "rm -rf ./dist",
 		"build": "tsc",
 		"dev": "nodemon",
