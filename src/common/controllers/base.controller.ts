@@ -1,7 +1,6 @@
 import { IResponseBody } from '../responses/interfaces';
-import { ICustomError } from '../errors/interaces/error.interface';
 
-import ErrorDictionary from '../errors/errors';
+import ErrorDictionary from '../../configs/errors/errors';
 
 export class BaseController {
 	constructor(protected readonly service?: any) { }
@@ -15,7 +14,7 @@ export class BaseController {
 		return response;
 	}
 
-	protected buildErrorResponse(error: ICustomError): IResponseBody {
+	protected buildErrorResponse(error: any): IResponseBody {
 
 		const { internalCode } = error;
 		const errorBody = ErrorDictionary[internalCode];
