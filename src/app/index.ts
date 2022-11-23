@@ -4,7 +4,8 @@ import cors from 'cors';
 
 import apiRoutes from './app.routes';
 
-import { noEndpointMiddleware } from '../common/middlewares/no-endpoint.middleware';
+import { noEndpointHandler } from '../common/handlers/no-endpoint.handler';
+import { errorHandler } from '../common/handlers/error.handler';
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(helmet());
 
 app.use('/api', apiRoutes);
 
-app.use(noEndpointMiddleware);
+app.use('*', noEndpointHandler);
+
+app.use(errorHandler);
 
 export default app;
