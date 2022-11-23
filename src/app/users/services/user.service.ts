@@ -2,17 +2,26 @@ import userRepository, { UserRepository } from '../repositories/user.repository'
 import { User } from '../entities/user.entity';
 
 import { IAuthCredentials } from '../../auth/interfaces/auth.interface';
+import { UserAlreadyExistsError } from '../../../common/errors/user/user.error';
 
 export class UserService {
 	constructor() { }
 
 	async create(credentials: IAuthCredentials): Promise<User> {
-		const { email, password } = credentials;
+		try {
+			const { email, password } = credentials;
 
-		const user = await userRepository.save({ email, password });
-		console.log(user);
+			const isExistingUser = await userRepository.findBy({ email });
+			if (isExistingUser) throw new UserAlreadyExistsError();
 
-		return user;
+			const user = await userRepository.save({ email, password });
+
+			return user;
+		} catch (error) {
+			if (error instanceof UserAlreadyExistsError) throw error;
+
+			throw error;
+		}
 	};
 }
 
