@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+    postgres:
+        container_name: postgres
+        image: postgres:15.1-alpine
+        restart: always
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        env_file:
+            - .env
+        environment:
+            POSTGRES_USER: ${CONTAINER_POSTGRES_USER}
+            POSTGRES_PASSWORD: ${CONTAINER_POSTGRES_PASSWORD}
+            POSTGRES_DB: ${CONTAINER_POSTGRES_DATABASE}
+        ports:
+            - "${LOCAL_POSTGRES_PORT}:5432"
+        networks:
+            - backend
+    paysoff-be:
+        container_name: paysoff-be
+        build:
+            context: ../
+            dockerfile: ./Dockerfiles/paysoff-be/Dockerfile
+        depends_on:
+            - postgres
+        env_file:
+            - .env
+            - ../.env
+        ports:
+            - "${LOCAL_PAYSOFF_BE_PORT}:${CONTAINER_PAYSOFF_BE_PORT}"
+        networks:
+            - backend
+
+volumes:
+    db_data:
+
+
+networks:
+    backend:
+        driver: bridge
