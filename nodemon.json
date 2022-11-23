@@ -6,8 +6,8 @@
 	"ignore": [
 		"src/**/*.spec.ts"
 	],
-	"exec": "ts-node ./src/server.ts",
+	"exec": "ts-node ./src/main.ts",
 	"execMap": {
-		"ts": "ts-node"
+		"ts": "ts-node ./src/main.ts"
 	}
 }
