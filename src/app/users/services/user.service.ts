@@ -35,6 +35,10 @@ export class UserService {
 		}
 	};
 
+	async findOneBy(criteria: FindOptionsWhere<User>): Promise<User | null> {
+		return userRepository.findOneBy(criteria);
+	}
+
 	async validateCredentials(credentials: IAuthCredentials): Promise<User> {
 		const { username, email, password } = credentials;
 
