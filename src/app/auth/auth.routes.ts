@@ -7,7 +7,7 @@ import { AuthRegisterDto, AuthLoginDto } from './dtos/auth.dto';
 
 const router = Router();
 
-router.post('/register', authController.register);
+router.post('/register', makeValidateBody(AuthRegisterDto), authController.register);
 router.post('/login', makeValidateBody(AuthLoginDto), authController.login);
 
 export default router;
