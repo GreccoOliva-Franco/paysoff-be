@@ -6,8 +6,15 @@ dotenv.config({ path: enviromentConfig.path });
 
 export default {
 	jwt: {
-		secret: process.env.AUTH_JWT_SECRET!,
-		expiresTime: process.env.AUTH_JWT_EXPIRES_IN!,
-		refreshExpireTime: process.env.AUTH_JWT_REFRESH_EXPIRES_IN!,
+		tokens: {
+			access: {
+				secret: process.env.AUTH_TOKEN_ACCESS_SECRET!,
+				expireTime: process.env.AUTH_TOKEN_ACCESS_EXPIRE_TIME!,
+			},
+			refresh: {
+				secret: process.env.AUTH_TOKEN_REFRESH_SECRET!,
+				expireTime: process.env.AUTH_TOKEN_REFRESH_EXPIRE_TIME!,
+			},
+		}
 	}
 }
