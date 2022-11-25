@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import apiRoutes from './app.routes';
 
-import { noEndpointHandler } from '../common/handlers/no-endpoint.handler';
+import { notFoundHandler } from '../common/handlers/no-endpoint.handler';
 
 const app = express();
 
@@ -15,6 +15,6 @@ app.use(helmet());
 
 app.use('/api', apiRoutes);
 
-app.use('*', noEndpointHandler);
+app.use('*', notFoundHandler);
 
 export default app;
