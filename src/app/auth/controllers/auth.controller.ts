@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import httpCodes from 'http-status-codes';
 
-import { IAuthController } from '../interfaces/auth.interface';
+import { IAuthController, IAuthCredentials } from '../interfaces/auth.interface';
 
 import authService from '../services/auth.service';
 
-import { UserAlreadyExistsError } from '../../../common/errors/user/user.error';
+import { UserAlreadyExistsError, UserInvalidCredentialsError } from '../../../common/errors/users/user.error';
 
 export class AuthController implements IAuthController {
 	constructor() { };
@@ -23,6 +23,20 @@ export class AuthController implements IAuthController {
 			return res.status(httpCodes.INTERNAL_SERVER_ERROR).json();
 		}
 	}
+
+	async login(req: Request, res: Response): Promise<Response> {
+		try {
+			const { username, email, password } = req.body as IAuthCredentials;
+
+			const tokens = await authService.login({ username, email, password });
+
+			return res.status(httpCodes.OK).json(tokens);
+		} catch (error) {
+			if (error instanceof UserInvalidCredentialsError) return res.status(httpCodes.UNAUTHORIZED).json({ error: error.errors });
+
+			return res.status(httpCodes.INTERNAL_SERVER_ERROR).json();
+		}
+	};
 }
 
 export default new AuthController();
