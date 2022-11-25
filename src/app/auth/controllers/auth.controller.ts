@@ -12,13 +12,13 @@ export class AuthController implements IAuthController {
 
 	async register(req: Request, res: Response) {
 		try {
-			const { email, password } = req.body;
+			const { username, email, password } = req.body as IAuthCredentials;
 
-			await authService.registerNewUser({ email, password });
+			await authService.registerNewUser({ username, email, password });
 
 			return res.status(httpCodes.CREATED).json();
 		} catch (error) {
-			if (error instanceof UserAlreadyExistsError) return res.status(httpCodes.BAD_REQUEST).json({ error: 'User already exists' });
+			if (error instanceof UserAlreadyExistsError) return res.status(httpCodes.BAD_REQUEST).json({ error: error.message });
 
 			return res.status(httpCodes.INTERNAL_SERVER_ERROR).json();
 		}
