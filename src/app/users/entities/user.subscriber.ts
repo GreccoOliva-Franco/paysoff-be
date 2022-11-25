@@ -1,5 +1,5 @@
-import { EventSubscriber, InsertEvent } from "typeorm";
 import bcrypt from 'bcrypt'
+import { EventSubscriber, InsertEvent } from "typeorm";
 
 import { User } from "./user.entity";
 
