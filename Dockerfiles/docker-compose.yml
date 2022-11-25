@@ -31,6 +31,8 @@ services:
             - "${LOCAL_PAYSOFF_BE_PORT}:${CONTAINER_PAYSOFF_BE_PORT}"
         networks:
             - backend
+        links:
+            - "postgres"
 
 volumes:
     db_data:
