@@ -21,6 +21,6 @@ export interface IAuthTokens {
 }
 
 export interface IAuthTokenPayload {
-	id: string;
+	userId: string;
 	username?: string;
 }
