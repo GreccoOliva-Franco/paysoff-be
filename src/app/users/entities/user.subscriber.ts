@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 import { EventSubscriber, InsertEvent } from "typeorm";
 
 import { User } from "./user.entity";
