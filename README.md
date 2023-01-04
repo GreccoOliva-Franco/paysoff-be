@@ -21,9 +21,12 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
 
   - [ ] Password reset token (or through email)
 
+- [ ] Validations
+  - [ ] DTO validations as middlewares
+
 - [ ] Financial analysis
-  - [ ] Aquire data from API (inflation,
-  interest rates, etc)
+  - [ ] Acquire data from API (inflation, interest rates, etc)
+
   - [ ] Create analysis
 
   - [ ] Get analysis
