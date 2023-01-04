@@ -5,11 +5,11 @@ import { IErrorHint } from '../interaces/error.interface';
 const prefix = 'users-E00-';
 
 export class UserAlreadyExistsError extends CustomError {
-	constructor(errors: IErrorHint[]) {
+	constructor() {
 		const name = 'UserAlreadyExistsError';
 		const message = 'User already exists';
 		const internalCode = `${prefix}000`;
-		super({ name, message, errors, internalCode });
+		super({ name, message, internalCode });
 	}
 }
 

@@ -14,7 +14,7 @@ import { AuthTokenExpiredError, AuthTokenInvalidError } from '../../../common/er
 export class AuthService implements IAuthService {
 	constructor() { };
 
-	async registerNewUser(credentials: IAuthCredentials): Promise<void> {
+	async signUp(credentials: IAuthCredentials): Promise<void> {
 		try {
 			await userService.create(credentials);
 		} catch (error) {
@@ -24,10 +24,12 @@ export class AuthService implements IAuthService {
 		}
 	}
 
-	async login(credentials: IAuthCredentials): Promise<IAuthTokens> {
+	async signIn(credentials: IAuthCredentials): Promise<IAuthTokens> {
 		try {
-			const user = await userService.validateCredentials(credentials);
-			if (!user) throw new UserInvalidCredentialsError();
+			const isValidPassword = await userService.validateCredentials(credentials);
+			if (!isValidPassword) throw new UserInvalidCredentialsError();
+
+			const user = (await userService.findOneBy({ email: credentials.email }))!;
 
 			const accessToken = this.generateAccessToken(user);
 			const refreshToken = this.generateRefreshToken(user);
@@ -58,7 +60,7 @@ export class AuthService implements IAuthService {
 	generateAccessToken(user: User): string {
 		const payload: IAuthTokenPayload = {
 			userId: user.id,
-			username: user.username,
+			email: user.email,
 		};
 
 		return jwt.sign(payload, authConfig.jwt.tokens.access.secret, { expiresIn: authConfig.jwt.tokens.access.expireTime });

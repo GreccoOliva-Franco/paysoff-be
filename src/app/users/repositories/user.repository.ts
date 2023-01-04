@@ -8,17 +8,35 @@ import { IUserRepositoryImplementation } from '../interfaces/user.interface'
 
 
 export class UserRepository extends Repository<User> implements IUserRepositoryImplementation {
-	static instance: UserRepository;
-
 	constructor(target: EntityTarget<User>, database: DataSource) {
 		super(target, database.manager);
 	}
 
-	static getInstance(): UserRepository {
-		if (!UserRepository.instance) UserRepository.instance = new UserRepository(User, database);
+	async findProfileById(userId: string): Promise<User | null> {
+		const fields = ['id', 'createdAt', 'email']
+			.map(field => `user.${field}`);
 
-		return UserRepository.instance;
+		const user = await this
+			.createQueryBuilder('user')
+			.where('user.id = :userId', { userId })
+			.select(fields)
+			.getOne();
+
+		return user;
+	}
+
+	async findOneByEmailWithPassword(email: string): Promise<User | null> {
+		const fields = ['email', 'password']
+			.map(field => `user.${field}`);
+
+		const user = await this
+			.createQueryBuilder('user')
+			.where("user.email = :email", { email })
+			.select(fields)
+			.getOne();
+
+		return user;
 	}
 }
 
-export default UserRepository.getInstance();
+export default new UserRepository(User, database);

@@ -1,17 +1,19 @@
 import { Request, Response } from "express";
+import { User } from "../../users/entities/user.entity";
 
 export interface IAuthController {
-	register: (req: Request, res: Response) => Promise<Response>;
-	login: (req: Request, res: Response) => Promise<Response>;
+	signUp: (req: Request, res: Response) => Promise<Response>;
+	signIn: (req: Request, res: Response) => Promise<Response>;
+	refresh: (req: Request, res: Response) => Promise<Response>;
 }
 
 export interface IAuthService {
-	registerNewUser: (credentials: IAuthCredentials) => Promise<void>;
-	login: (credentials: IAuthCredentials) => Promise<IAuthTokens>;
+	signUp: (credentials: IAuthCredentials) => Promise<void>;
+	signIn: (credentials: IAuthCredentials) => Promise<IAuthTokens>;
+	refresh: (token: any) => Promise<IAuthTokens>;
 }
 
 export interface IAuthCredentials {
-	username: string;
 	email: string;
 	password: string;
 }
@@ -22,5 +24,5 @@ export interface IAuthTokens {
 
 export interface IAuthTokenPayload {
 	userId: string;
-	username?: string;
+	email?: string;
 }

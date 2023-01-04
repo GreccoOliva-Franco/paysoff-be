@@ -1,13 +1,14 @@
 # build runner
 FROM node:lts-alpine
 
-WORKDIR /usr/app
+WORKDIR /usr/paysoff-bff
 COPY . .
 RUN npm install
+RUN npm run build
 
 
 # Activate one of this lines to run the app (production or development) modes
-# Production mode
+# 1) Production mode
 CMD [ "npm", "start"]
-# Development mode
+# 2) Development mode
 # CMD [ "npm", "run", "dev" ]

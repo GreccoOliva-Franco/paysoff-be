@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-    postgres:
+    db:
         container_name: postgres
         image: postgres:15.1-alpine
         restart: always
@@ -17,13 +17,13 @@ services:
             - "${LOCAL_POSTGRES_PORT}:5432"
         networks:
             - backend
-    paysoff-be:
-        container_name: paysoff-be
+    paysoff-bff:
+        container_name: paysoff-bff
         build:
             context: ../
-            dockerfile: ./Dockerfiles/paysoff-be/Dockerfile
+            dockerfile: ./Dockerfiles/paysoff-bff/Dockerfile
         depends_on:
-            - postgres
+            - db
         env_file:
             - .env
             - ../.env
@@ -32,7 +32,7 @@ services:
         networks:
             - backend
         links:
-            - "postgres"
+            - "db"
 
 volumes:
     db_data:
