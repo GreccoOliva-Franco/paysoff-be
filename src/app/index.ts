@@ -1,6 +1,7 @@
 import express from 'express';
-import helmet from 'helmet';
 import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
 
 import apiRoutes from './app.routes';
 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(helmet());
+app.use(morgan('dev'))
 
 app.use('/api', apiRoutes);
 
