@@ -8,17 +8,18 @@ import authService from '../services/auth.service';
 import { UserAlreadyExistsError, UserInvalidCredentialsError } from '../../../common/errors/users/user.error';
 import { AuthTokenExpiredError, AuthTokenInvalidError } from '../../../common/errors/auth/auth.error';
 import { ErrorLogger } from '../../../common/loggers/error.logger';
+import { AuthSignDto } from '../dtos/auth.dto';
 
 export class AuthController implements IAuthController {
 	constructor() { };
 
-	async register(req: Request, res: Response) {
+	async signUp(req: Request, res: Response): Promise<Response> {
 		try {
-			const { username, email, password } = req.body as IAuthCredentials;
+			const { email, password } = <AuthSignDto>req.body;
 
-			await authService.registerNewUser({ username, email, password });
+			await authService.signUp({ email, password });
 
-			return res.status(httpCodes.CREATED);
+			return res.status(httpCodes.CREATED).json();
 		} catch (error) {
 			if (error instanceof UserAlreadyExistsError) return res.status(httpCodes.BAD_REQUEST).json({ error: error.message });
 
@@ -27,11 +28,11 @@ export class AuthController implements IAuthController {
 		}
 	}
 
-	async login(req: Request, res: Response): Promise<Response> {
+	async signIn(req: Request, res: Response): Promise<Response> {
 		try {
-			const { username, email, password } = req.body as IAuthCredentials;
+			const { email, password } = req.body as IAuthCredentials;
 
-			const tokens = await authService.login({ username, email, password });
+			const tokens = await authService.signIn({ email, password });
 
 			return res.status(httpCodes.OK).json(tokens);
 		} catch (error) {

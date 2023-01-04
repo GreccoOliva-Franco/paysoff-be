@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { EventSubscriber, InsertEvent } from "typeorm";
+import { EventSubscriber, InsertEvent, ObjectLiteral, UpdateEvent } from "typeorm";
 
 import { User } from "./user.entity";
 
@@ -11,18 +11,23 @@ export class UserSubscriber {
 		return User;
 	}
 
-	private async hashPassword(password: string): Promise<string> {
-		const hashedPassword = await bcrypt.hash(password, hashConfig.rounds)
-
-		return hashedPassword
+	async hashPassword(password: string): Promise<string> {
+		return await bcrypt.hash(password, hashConfig.rounds);
 	}
 
 	async beforeInsert(event: InsertEvent<User>): Promise<User> {
 		const user = event.entity;
 
-		const hashedPassword = await this.hashPassword(user.password)
-		user.password = hashedPassword;
+		user.password = await this.hashPassword(user.password);
 
 		return user;
+	}
+
+	async beforeUpdate(event: UpdateEvent<User>): Promise<ObjectLiteral | undefined> {
+		const fields = event.entity;
+
+		if (fields?.password) fields.password = await this.hashPassword(fields.password);
+
+		return fields;
 	}
 }
