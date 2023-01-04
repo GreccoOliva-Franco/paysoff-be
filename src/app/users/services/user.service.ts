@@ -12,14 +12,24 @@ import { IErrorHint } from '../../../common/errors/interaces/error.interface';
 export class UserService {
 	constructor() { }
 
+	async findOneBy(criteria: FindOptionsWhere<User>): Promise<User | null> {
+		return userRepository.findOneBy(criteria);
+	}
+
+	async findProfileById(userId: string): Promise<User | null> {
+		const user = await userRepository.findProfileById(userId);
+
+		return user;
+	}
+
 	async create(credentials: IAuthCredentials): Promise<User> {
 		try {
 			const { username, email, password } = credentials;
 
 			const users = await userRepository.find({ where: [{ username }, { email }] });
 			const validationErrors = users.reduce((acc: IErrorHint[], user: User) => {
-				if (user.username === username) acc.push({ field: 'username', message: 'Username already exists' });
-				if (user.email === email) acc.push({ field: 'email', message: 'Email already exists' });
+				if (user.username === username) acc.push({ field: 'username', message: 'Username already in use' });
+				if (user.email === email) acc.push({ field: 'email', message: 'Email already in use' });
 
 				return acc;
 			}, []);
@@ -34,10 +44,6 @@ export class UserService {
 			throw error;
 		}
 	};
-
-	async findOneBy(criteria: FindOptionsWhere<User>): Promise<User | null> {
-		return userRepository.findOneBy(criteria);
-	}
 
 	async validateCredentials(credentials: IAuthCredentials): Promise<User> {
 		const { username, email, password } = credentials;

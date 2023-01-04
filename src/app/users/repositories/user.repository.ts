@@ -8,16 +8,20 @@ import { IUserRepositoryImplementation } from '../interfaces/user.interface'
 
 
 export class UserRepository extends Repository<User> implements IUserRepositoryImplementation {
-	static instance: UserRepository;
-
 	constructor(target: EntityTarget<User>, database: DataSource) {
 		super(target, database.manager);
 	}
 
-	static getInstance(): UserRepository {
-		if (!UserRepository.instance) UserRepository.instance = new UserRepository(User, database);
+	async findProfileById(userId: string): Promise<User | null> {
+		const profileFields = ['id', 'createdAt', 'username', 'email'];
 
-		return UserRepository.instance;
+		const user = await this
+			.createQueryBuilder('user')
+			.where('user.id = :userId', { userId })
+			.select(profileFields)
+			.getOne();
+
+		return user;
 	}
 }
 
