@@ -8,6 +8,7 @@ import authService from '../services/auth.service';
 import { UserAlreadyExistsError, UserInvalidCredentialsError } from '../../../common/errors/users/user.error';
 import { AuthTokenExpiredError, AuthTokenInvalidError } from '../../../common/errors/auth/auth.error';
 import { ErrorLogger } from '../../../common/loggers/error.logger';
+
 export class AuthController implements IAuthController {
 	constructor() { };
 
@@ -17,7 +18,7 @@ export class AuthController implements IAuthController {
 
 			await authService.registerNewUser({ username, email, password });
 
-			return res.status(httpCodes.CREATED).json();
+			return res.status(httpCodes.CREATED);
 		} catch (error) {
 			if (error instanceof UserAlreadyExistsError) return res.status(httpCodes.BAD_REQUEST).json({ error: error.message });
 
