@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
 import { IUser } from "../interfaces/user.interface";
 
@@ -24,12 +24,12 @@ export class User implements IUser {
 	deletedAt: Date;
 
 	// data
-	@Column({ nullable: true })
+	@Column({ nullable: true, unique: true })
 	username: string;
 
-	@Column()
+	@Column({ nullable: false, select: false })
 	password: string;
 
-	@Column()
+	@Column({ nullable: true, unique: true })
 	email: string;
 }
