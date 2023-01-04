@@ -15,7 +15,7 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
   - [x] refresh token
 
 - [ ] Users
-  - [ ] Own profile
+  - [x] Own profile
 
   - [ ] Update data
 
