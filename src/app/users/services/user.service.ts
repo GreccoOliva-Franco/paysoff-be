@@ -43,16 +43,15 @@ export class UserService {
 		}
 	};
 
-	async validateCredentials(credentials: IAuthCredentials): Promise<User> {
+	async validateCredentials(credentials: IAuthCredentials): Promise<boolean> {
 		const { email, password } = credentials;
 
-		const user = await this.repository.findOneBy({ email });
-		if (!user) throw new UserInvalidCredentialsError();
+		const user = await this.repository.findOneByEmailWithPassword(email);
+		if (!user) return false;
 
 		const isValidPassword = await bcrypt.compare(password, user.password);
-		if (!isValidPassword) throw new UserInvalidCredentialsError();
 
-		return user;
+		return isValidPassword;
 	}
 }
 

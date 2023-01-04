@@ -1,8 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
-import bcrypt from 'bcrypt';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
 import { IUser } from "../interfaces/user.interface";
-import hashConfig from "../../../configs/hash";
 @Entity('users')
 export class User implements IUser {
 	// metadata
@@ -28,6 +26,6 @@ export class User implements IUser {
 	@Column({ nullable: false, unique: true })
 	email: string;
 
-	@Column({ nullable: false, select: true })
+	@Column({ nullable: false, select: false })
 	password: string;
 }
