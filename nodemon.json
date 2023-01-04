@@ -6,8 +6,5 @@
 	"ignore": [
 		"src/**/*.spec.ts"
 	],
-	"exec": "npm run build && npm start",
-	"execMap": {
-		"ts": "ts-node ./src/main.ts"
-	}
+	"exec": "npm run build && npm start"
 }
