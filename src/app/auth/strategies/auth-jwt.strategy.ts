@@ -22,4 +22,9 @@ const verify: VerifyCallback = (payload: JwtPayload, done) => {
 		.catch((error) => done(error, false));
 };
 
-export const BearerStrategy = new Strategy(options, verify);
+export const bearerStrategy = new Strategy(options, verify);
+
+passport.use('jwt-bearer', bearerStrategy);
+
+export default passport;
+

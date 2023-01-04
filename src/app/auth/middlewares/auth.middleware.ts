@@ -1,20 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import passport from 'passport';
 import httpCode from 'http-status-codes';
+
+import passport from '../strategies/auth-jwt.strategy';
 
 import { User } from '../../users/entities/user.entity';
 
 export class AuthMiddleware {
-	static isOwnResource(req: Request, res: Response, next: NextFunction) {
-		const { id: requesterId } = <User>req.user;
-		const { userId: targetId } = req.params!;
+	static isOwnResource() {
+		return function (req: Request, res: Response, next: NextFunction) {
+			const { id: requesterId } = <User>req.user;
+			const { userId: targetId } = req.params!;
 
-		if (requesterId !== targetId) return res.status(httpCode.FORBIDDEN)
+			if (requesterId !== targetId) return res.status(httpCode.FORBIDDEN).json();
 
-		next();
+			next();
+		}
 	}
 
-	static bearer(_: Request, __: Response, ___: NextFunction): void {
-		return passport.authenticate('jwt', { session: false })
+	static bearer() {
+		return passport.authenticate('jwt-bearer', { session: false })
 	}
 }
