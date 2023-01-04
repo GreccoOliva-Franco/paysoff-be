@@ -1,6 +1,5 @@
 import { IsString, IsNotEmpty, IsOptional, IsEmail, Length } from 'class-validator';
-import { MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH } from '../../../configs/business/users/user.config';
-
+import userBusinessConfigs from '../../../configs/business/users/user-business.config'
 export class AuthRegisterDto {
 	@IsString()
 	@IsNotEmpty()
@@ -13,7 +12,10 @@ export class AuthRegisterDto {
 
 	@IsString()
 	@IsNotEmpty()
-	@Length(MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH)
+	@Length(
+		userBusinessConfigs.password.length.min,
+		userBusinessConfigs.password.length.max,
+	)
 	password: string;
 }
 
@@ -31,6 +33,9 @@ export class AuthLoginDto {
 
 	@IsString()
 	@IsNotEmpty()
-	@Length(MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH)
+	@Length(
+		userBusinessConfigs.password.length.min,
+		userBusinessConfigs.password.length.max,
+	)
 	password: string;
 }
