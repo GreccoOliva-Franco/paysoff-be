@@ -21,4 +21,4 @@ export class UserRepository extends Repository<User> implements IUserRepositoryI
 	}
 }
 
-export default UserRepository.getInstance();
+export default new UserRepository(User, database);
