@@ -13,8 +13,8 @@ export class UserRepository extends Repository<User> implements IUserRepositoryI
 	}
 
 	async findProfileById(userId: string): Promise<User | null> {
-		const fields = ['id', 'createdAt', 'email']
-			.map(field => `user.${field}`);
+		const fields = this.buildFields(['id', 'createdAt', 'email']);
+
 
 		const user = await this
 			.createQueryBuilder('user')
@@ -26,8 +26,8 @@ export class UserRepository extends Repository<User> implements IUserRepositoryI
 	}
 
 	async findOneByEmailWithPassword(email: string): Promise<User | null> {
-		const fields = ['email', 'password']
-			.map(field => `user.${field}`);
+		const fields = this.buildFields(['email', 'password']);
+
 
 		const user = await this
 			.createQueryBuilder('user')
@@ -36,6 +36,10 @@ export class UserRepository extends Repository<User> implements IUserRepositoryI
 			.getOne();
 
 		return user;
+	}
+
+	private buildFields(fields: string[]): string[] {
+		return fields.map(field => `user.${field}`);
 	}
 }
 
