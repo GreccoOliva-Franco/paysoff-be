@@ -6,11 +6,11 @@ import userController from "./controllers/user.controller";
 
 const router = Router();
 
-router.use(AuthMiddleware.bearer)
-router.use(AuthMiddleware.isOwnResource);
 
 router.get(
 	'/:userId',
+	AuthMiddleware.bearer(),
+	AuthMiddleware.isOwnResource(),
 	userController.findProfileUserById
 );
 
