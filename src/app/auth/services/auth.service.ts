@@ -26,8 +26,10 @@ export class AuthService implements IAuthService {
 
 	async signIn(credentials: IAuthCredentials): Promise<IAuthTokens> {
 		try {
-			const user = await userService.validateCredentials(credentials);
-			if (!user) throw new UserInvalidCredentialsError();
+			const isValidPassword = await userService.validateCredentials(credentials);
+			if (!isValidPassword) throw new UserInvalidCredentialsError();
+
+			const user = (await userService.findOneBy({ email: credentials.email }))!;
 
 			const accessToken = this.generateAccessToken(user);
 			const refreshToken = this.generateRefreshToken(user);
