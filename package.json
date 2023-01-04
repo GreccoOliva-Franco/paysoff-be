@@ -5,13 +5,10 @@
 	"main": "./dist/main.js",
 	"type": "commonjs",
 	"scripts": {
-		"prestart": "npm run build",
 		"start": "node .",
 		"prebuild": "rm -rf ./dist",
 		"build": "tsc",
-		"dev": "nodemon",
-		"test": "jest",
-		"typeorm": "typeorm-ts-node-commonjs"
+		"dev": "nodemon"
 	},
 	"repository": {
 		"type": "git",
