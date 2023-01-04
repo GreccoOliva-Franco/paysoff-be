@@ -30,7 +30,7 @@ export class AuthController implements IAuthController {
 
 	async signIn(req: Request, res: Response): Promise<Response> {
 		try {
-			const { email, password } = req.body as IAuthCredentials;
+			const { email, password } = <AuthSignDto>req.body;
 
 			const tokens = await authService.signIn({ email, password });
 
