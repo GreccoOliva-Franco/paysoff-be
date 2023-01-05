@@ -51,6 +51,16 @@ export class UserService {
 		}
 	}
 
+	async updatePasswordById(userId: string, password: string): Promise<UpdateResult> {
+		try {
+			const updateResult = await userRepository.update({ id: userId }, { password });
+
+			return updateResult;
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async validateCredentials(credentials: IAuthCredentials): Promise<boolean> {
 		const { email, password } = credentials;
 

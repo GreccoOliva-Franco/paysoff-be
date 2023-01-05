@@ -1,7 +1,5 @@
 import { CustomError } from '../custom.error';
 
-import { IErrorHint } from '../interaces/error.interface';
-
 const prefix = 'users-E00-';
 
 export class UserAlreadyExistsError extends CustomError {
@@ -18,6 +16,15 @@ export class UserInvalidCredentialsError extends CustomError {
 		const name = 'UserWrongCredentialsError';
 		const message = 'Invalid credentials';
 		const internalCode = `${prefix}001`;
+		super({ name, message, internalCode });
+	}
+}
+
+export class UserDoesNotExistError extends CustomError {
+	constructor() {
+		const name = 'UserDoesNotExistError';
+		const message = 'User does not exist';
+		const internalCode = `${prefix}002`;
 		super({ name, message, internalCode });
 	}
 }
