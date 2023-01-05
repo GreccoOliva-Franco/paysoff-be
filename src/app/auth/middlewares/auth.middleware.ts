@@ -13,7 +13,7 @@ export class AuthMiddleware {
 
 			if (requesterId !== targetId) return res.status(httpCode.FORBIDDEN).json();
 
-			next();
+			return next();
 		}
 	}
 

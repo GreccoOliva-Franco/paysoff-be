@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { FindOptionsWhere } from 'typeorm';
+import { FindOptionsWhere, UpdateResult } from 'typeorm';
 
 import userRepository, { UserRepository } from '../repositories/user.repository'
 import { User } from '../entities/user.entity';
@@ -10,18 +10,14 @@ import { UserAlreadyExistsError, UserInvalidCredentialsError } from '../../../co
 import { IErrorHint } from '../../../common/errors/interaces/error.interface';
 
 export class UserService {
-	private readonly repository: UserRepository;
-
-	constructor() {
-		this.repository = userRepository;
-	}
+	constructor() { }
 
 	async findOneBy(criteria: FindOptionsWhere<User>): Promise<User | null> {
 		return userRepository.findOneBy(criteria);
 	}
 
 	async findProfileById(userId: string): Promise<User | null> {
-		const user = await this.repository.findProfileById(userId);
+		const user = await userRepository.findProfileById(userId);
 
 		return user;
 	}
@@ -30,10 +26,10 @@ export class UserService {
 		try {
 			const { email, password } = credentials;
 
-			let user = await this.repository.findOneBy({ email });
+			let user = await userRepository.findOneBy({ email });
 			if (user) throw new UserAlreadyExistsError();
 
-			user = await this.repository.save({ email, password });
+			user = await userRepository.save({ email, password });
 
 			return user;
 		} catch (error) {
@@ -43,10 +39,22 @@ export class UserService {
 		}
 	};
 
+	async updateById(userId: string, data: Partial<User>): Promise<User | null> {
+		try {
+			await userRepository.update({ id: userId }, data);
+
+			const user = (await userRepository.findProfileById(userId));
+
+			return user;
+		} catch (error) {
+			throw error;
+		}
+	}
+
 	async validateCredentials(credentials: IAuthCredentials): Promise<boolean> {
 		const { email, password } = credentials;
 
-		const user = await this.repository.findOneByEmailWithPassword(email);
+		const user = await userRepository.findOneByEmailWithPassword(email);
 		if (!user) return false;
 
 		const isValidPassword = await bcrypt.compare(password, user.password);

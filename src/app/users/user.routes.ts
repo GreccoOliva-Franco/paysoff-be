@@ -14,4 +14,11 @@ router.get(
 	userController.findProfileUserById
 );
 
+router.patch(
+	'/:userId',
+	AuthMiddleware.bearer(),
+	AuthMiddleware.isOwnResource(),
+	userController.updateById
+)
+
 export default router;

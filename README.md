@@ -15,16 +15,19 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
   - [x] refresh token
 
 - [ ] Users
+
   - [x] Own profile
 
-  - [ ] Update data
+  - [X] Update data
 
   - [ ] Password reset token (or through email)
 
 - [ ] Validations
+
   - [ ] DTO validations as middlewares
 
 - [ ] Financial analysis
+
   - [ ] Acquire data from API (inflation, interest rates, etc)
 
   - [ ] Create analysis
@@ -44,6 +47,7 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
 ## Third stage features
 
 - [ ] Event queue handling
+
 - [ ] Event triggers
 
 - [ ] Metrics
@@ -53,4 +57,5 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
 ## Fourth stage features
 
 - [ ] Migrate to microservices
+
 - [ ] Start using Kubernetes
