@@ -20,11 +20,7 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
 
   - [X] Update data
 
-  - [ ] Password reset token (or through email)
-
-- [ ] Validations
-
-  - [ ] DTO validations as middlewares
+  - [X] Password reset token
 
 - [ ] Financial analysis
 
@@ -37,6 +33,14 @@ This project is the Backend For Frontend (BFF) for the Paysoff application. It i
   - [ ] Get all analysis
 
   - [ ] Delete analysis (soft delete)
+
+- [ ] Auth
+
+  - [ ] Reset password through email service
+
+- [ ] Validations
+
+  - [ ] DTO validations as endpoint middlewares
 
 ## Second stage features
 
