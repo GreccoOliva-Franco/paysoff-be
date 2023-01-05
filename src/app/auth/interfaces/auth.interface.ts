@@ -19,7 +19,7 @@ export interface IAuthCredentials {
 }
 
 export interface IAuthTokens {
-	[key: string]: string
+	[key: string]: string;
 }
 
 export interface IAuthTokenPayload {

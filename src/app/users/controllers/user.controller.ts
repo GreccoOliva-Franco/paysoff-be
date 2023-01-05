@@ -28,7 +28,7 @@ export class UserController {
 	async updateById(req: Request, res: Response): Promise<Response> {
 		try {
 			const { userId } = req.params;
-			const { password, ...data } = <UserUpdateDto & { password?: string }>req.body;
+			const data = <UserUpdateDto & { password?: string }>req.body;
 
 			if (!userId) return res.status(httpCode.BAD_REQUEST).json({ error: '\"userId\" must be specified' })
 

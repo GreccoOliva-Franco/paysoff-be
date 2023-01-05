@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import httpCodes from 'http-status-codes';
 
-import { IAuthController, IAuthCredentials } from '../interfaces/auth.interface';
+import { IAuthController } from '../interfaces/auth.interface';
 
 import authService from '../services/auth.service';
 
 import { UserAlreadyExistsError, UserInvalidCredentialsError } from '../../../common/errors/users/user.error';
 import { AuthTokenExpiredError, AuthTokenInvalidError } from '../../../common/errors/auth/auth.error';
 import { ErrorLogger } from '../../../common/loggers/error.logger';
-import { AuthSignDto } from '../dtos/auth.dto';
+import { AuthRefreshDto, AuthResetPasswordDto, AuthResetPasswordTokenDto, AuthSignDto } from '../dtos/auth.dto';
 
 export class AuthController implements IAuthController {
 	constructor() { };
@@ -45,7 +45,7 @@ export class AuthController implements IAuthController {
 
 	async refresh(req: Request, res: Response): Promise<Response> {
 		try {
-			const { refreshToken } = req.body;
+			const { refreshToken } = <AuthRefreshDto>req.body;
 
 			const tokens = await authService.refresh(refreshToken);
 
@@ -55,6 +55,34 @@ export class AuthController implements IAuthController {
 			if (error instanceof AuthTokenInvalidError) return res.status(httpCodes.UNAUTHORIZED).json({ error: error.message });
 
 			ErrorLogger.logUncaughtError(error)
+			return res.status(httpCodes.INTERNAL_SERVER_ERROR).json();
+		}
+	}
+
+	async getResetPasswordToken(req: Request, res: Response): Promise<Response> {
+		try {
+			const { email } = <AuthResetPasswordTokenDto>req.body;
+
+			const resetToken = await authService.getResetPasswordToken(email); // TODO: change functionality to send email
+
+			return res.status(httpCodes.OK).json({ resetToken });
+		} catch (error) {
+			ErrorLogger.logUncaughtError(error)
+
+			return res.status(httpCodes.INTERNAL_SERVER_ERROR).json();
+		}
+	}
+
+	async changePassword(req: Request, res: Response): Promise<Response> {
+		try {
+			const { passwordToken: token, password } = <AuthResetPasswordDto>req.body;
+
+			await authService.changePassword({ token, password });
+
+			return res.status(httpCodes.OK).json();
+		} catch (error) {
+			ErrorLogger.logUncaughtError(error)
+
 			return res.status(httpCodes.INTERNAL_SERVER_ERROR).json();
 		}
 	}

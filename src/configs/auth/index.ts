@@ -15,6 +15,10 @@ export default {
 				secret: process.env.AUTH_TOKEN_REFRESH_SECRET!,
 				expireTime: process.env.AUTH_TOKEN_REFRESH_EXPIRE_TIME!,
 			},
+			password: {
+				secret: process.env.AUTH_TOKEN_PASSWORD_RESET_SECRET!,
+				expireTime: process.env.AUTH_TOKEN_PASSWORD_RESET_EXPIRE_TIME!,
+			}
 		}
 	}
 }
